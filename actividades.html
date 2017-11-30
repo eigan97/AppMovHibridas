@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Actividades</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+	<link rel="icon" type="image/png" href="imagen/logo.png" />
+	<script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="bartop">
+		<p>SOR</p>
+	</div>
+	<div class="contenido">
+		<p>Dinos que actividades te gustan mas</p>
+		<div class="actividad">
+			<h1 style="width:100%; text-align: center;color: #bebebe">Deportes</h1>
+			<div class="activity" id="soccer" onclick="subrayar(this,estado)">
+				<img src="imagen/icon/soccer.png" alt="" width="80%;" height="80%;">
+			</div>
+			<div class="activity" id="bask" onclick="subrayar(this)">
+				<img src="imagen/icon/basketball.png" alt="" width="80%;" height="80%;">
+			</div>
+			<div class="activity" id="correr" onclick="subrayar(this)">
+				<img src="imagen/icon/run.png" alt="" width="80%;" height="80%;">
+			</div>
+			<div class="activity" id="bici" onclick="subrayar(this)">
+				<img src="imagen/icon/bicycle.png" alt="" width="80%;" height="80%;">
+			</div>
+			<div class="activity" id="gym"onclick="subrayar(this)">
+				<img src="imagen/icon/weight.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<h1 style="width:100%; text-align: center;color: #bebebe">Artes</h1>
+
+			<div class="activity" id="escribir" onclick="subrayar(this)">
+				<img src="imagen/icon/edit.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="instrumento" onclick="subrayar(this)">
+				<img src="imagen/icon/acoustic-guitar.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="dibujar" onclick="subrayar(this)">
+				<img src="imagen/icon/paint-palette.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="cantar" onclick="subrayar(this)">
+				<img src="imagen/icon/microphone.png" alt="" width="80%;" height="80%;">
+			</div>
+			<div class="activity" id="bailar" onclick="subrayar(this)">
+				<img src="imagen/icon/ballet.png" alt="" width="80%;" height="80%;">
+			</div>
+			<h1 style="width:100%; text-align: center;color: #bebebe">Entretenimiento</h1>
+			<div class="activity" id="Peliculas/Series" onclick="subrayar(this)">
+				<img src="imagen/icon/film-reel.png" alt="" width="80%;" height="80%;">
+
+				
+			</div>
+			<div class="activity" id="musica" onclick="subrayar(this)">
+				<img src="imagen/icon/listening.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="videojuegos" onclick="subrayar(this)">
+				<img src="imagen/icon/game-console.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="libro" onclick="subrayar(this)">
+				<img src="imagen/icon/open-book.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="teatro" onclick="subrayar(this)">
+				<img src="imagen/icon/cinema.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+
+			
+			<h1 style="width:100%; text-align: center;color: #bebebe">Otras actividades</h1>
+			<div class="activity" id="museo" onclick="subrayar(this)">
+				<img src="imagen/icon/banks.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="concierto" onclick="subrayar(this)">
+				<img src="imagen/icon/rock-and-roll.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="cine" onclick="subrayar(this)">
+				<img src="imagen/icon/salty.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="amigos" onclick="subrayar(this)">
+				<img src="imagen/icon/friendship.png" alt="" width="80%;" height="80%;">
+				
+			</div>
+			<div class="activity" id="familiar" onclick="subrayar(this)">
+				<img src="imagen/icon/grandmother.png" alt="" width="80%;" height="80%;">
+
+			</div>
+
+		</div>
+	<input onclick="continuar()" type="submit" class="button">
+
+	</div>
+</div>
+<input id="bandera" value="actividades" hidden="none"></input>
+
+	
+</body>
+<script src="script/script.js"></script>
+<script>
+	var actividades=[];
+	var actividadesN=[];
+			var estado=0;
+	function subrayar(algo){
+
+		if(algo.classList[1]=='sub'){
+			actividadesN.push(algo.id)
+			
+			estado=1
+		}else{
+			actividades.push(algo.id)
+			
+			estado=0
+		}
+		if(estado==0){
+
+		objeto=document.getElementById(algo.id)
+		objeto.classList.add('sub')
+		estado=1;
+	}else{
+		objeto=document.getElementById(algo.id)
+		objeto.classList.remove('sub')
+		estado=0;
+	}
+	for (var i = 0 ; i <= actividades.length-1; i++) {
+		for (var x = 0 ; x <= actividadesN.length-1; x++) {
+			if(actividades[i]==actividadesN[x]){
+				
+				quitado=actividades.splice(i,1);
+				console.log(quitado);
+				
+
+			}
+		}
+		
+	}
+	//actividade es la lista que tienes que guardar en firebase ;*
+	console.log("Total"+actividades);
+	localStorage.setItem("actividades",actividades);
+	}
+</script>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+		font-family: 'segoe UI';
+	}
+	.container{
+		width: 100%;
+		height: 100vh;
+		background: #f6f6f6;
+	}
+	.bartop{
+		text-align: center;
+		background: #Fff;
+		width: 100%;
+		height: 40px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  	font-size: 1.5em;
+  	line-height: 40px;
+  	font-weight: 200;
+	}
+	.contenido{
+		width: 100%;
+		height: calc(100vh - 40px);
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-content:center;
+	}
+	.contenido>p{
+		font-size: 1.2em;
+		color: rgba(0,0,0,0.8);
+	}
+	.actividad{
+		width:80%;
+		height: calc(100vh - 200px);
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		overflow-y: scroll;
+		margin-bottom: 20px;
+		
+	}
+	.activity{
+	    width: 30px;
+    height: 30px;
+    margin: 5px;
+    background: #F8E22C;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+	}.sub{
+		border:4px solid #19DC2D  ;
+		box-sizing: border-box;
+	}
+	.button{
+		height: 40px;
+		width: 80%;
+		color: #fff;
+		border-radius: 50px;
+		border:none;
+		outline: none;
+		margin-top: 5px;
+		margin-bottom: 10px;
+		background-color:#E93C3C;
+		transition: .1s ease-in;
+	}
+	.button:active{
+	background-color:#EB5959;	
+
+	}
+</style>
+</html>

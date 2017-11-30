@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>	</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+	<script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+<link rel="icon" type="image/png" href="imagen/logo.png" />
+</head>
+<body>
+	<div class="container">	
+	<div class="bartop">	
+	<p>	SOR</p>
+	</div>
+	<div class="contenido">
+	
+	<div class="imagen">
+	<img src="imagen/photo-camera.png" id="imagenPerfil" alt="" width="80px" height="80px">
+		<label for="inputImg" class="squareImg">
+		<div id="info">	
+		<h1>Sube tu imagen </h1>
+		<p>Selecciona la imagen o pega la url para obtener las emociones de tu foto</p>
+		</div>
+		<progress value="0" max="100" id="uploader">0%</progress>
+		</label>
+	</div>
+		<input type="file" id="inputImg" name="inputImg" style="display: none;">
+		<div class="urlinput">	
+		
+		</div>
+		<input type="submit" class="button" id="btn">
+	</div>
+	</div>
+		</div>
+<!-- 		<div id="scores"></div>
+ -->		<input id="bandera" value="img" hidden="none"></input>
+</body>
+<style>	
+*{
+		margin: 0;
+		padding: 0;
+		font-family: 'segoe UI';
+	}
+	.squareImg{
+		width: 100%;
+		height: 100%;
+		text-align: center;
+	}
+	
+	.urlinput input{
+		
+		width: 100%;
+		outline: none;
+		border:3px solid #DEDEDE;
+		height: 40px;
+		font-size: 1em;
+		padding-left: 10px;
+		box-sizing:border-box;
+		
+	}
+	.urlinput{
+		width: 80%;
+		margin-bottom: 30px;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	.imagen{
+		width: 80%;
+		height: auto;
+		padding-top: 30px;
+		padding-bottom: 60px;
+		padding-left:  20px;
+		padding-right: 20px;
+		border:1px dotted rgba(0,0,0,0.8);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+		margin-bottom: 20px;
+	}
+	.bartop{
+		text-align: center;
+		background: #Fff;
+		width: 100%;
+		height: 40px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  	font-size: 1.5em;
+  	line-height: 40px;
+  	font-weight: 200;
+	}
+	.container{
+		width: 100%;
+		height: 100vh;
+		background: #f6f6f6;
+
+	}
+	.mensaje{
+
+		width: 80%;
+		height: auto;
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 50px;
+		text-align: center;
+
+	}
+	.mensaje>h1{
+		color: rgba(0,0,0,0.8);
+		font-size: 2.5em;
+
+	}
+	.mensaje>p{
+		color: rgba(0,0,0,0.6);
+
+		font-size: 1.5em;
+	}
+	.contenido{
+		width: 100%;
+		height: calc(100vh - 40px);
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-content:center;
+	}
+	.button{
+		height: 40px;
+		width: 80%;
+		color: #fff;
+		border-radius: 50px;
+		border:none;
+		outline: none;
+		margin-top: 5px;
+		margin-bottom: 10px;
+		background-color:#E93C3C;
+		transition: .1s ease-in;
+	}
+	.button:active{
+	background-color:#EB5959;	
+
+	}
+	</style>
+<script src="script/script.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	var urlImage = localStorage.getItem("urlImage");
+    const image = localStorage.getItem("imagen");
+    var hoy = new Date();
+	var dd = hoy.getDate();
+	var mm = hoy.getMonth()+1; //hoy es 0!
+	var yyyy = hoy.getFullYear();
+	var fecha = dd+"/"+mm+"/"+yyyy;
+	
+
+	function getBase64(file) {
+   		var reader = new FileReader();
+   		reader.readAsDataURL(file);
+   		reader.onload = function () {
+     	//console.log(reader.result);
+     	localStorage.setItem("imgData", reader.result)
+   };
+   		reader.onerror = function (error) {
+     		console.log('Error: ', error);
+   		};
+	}
+
+	var uploader = document.getElementById('uploader');
+    var fileButton = document.getElementById('inputImg');
+
+    fileButton.addEventListener('change', function(e){
+    	//Obtener archivo
+    	var file = e.target.files[0];
+
+        console.log(file);
+        console.log(file.name);
+        //localStorage.setItem("imagen",file.name);
+    	uploader.value = 100;
+        document.getElementById('info').innerHTML="<h4>"+file.name+"</h4><h6>o selecciona otra foto</h6>"
+        imgData = getBase64(file);
+    });
+	;
+
+	function perfiles(){
+		var txtUrlIagen = document.getElementById('urlImagen');  
+		guardarResE();
+	}
+
+    	 var apiKey = "b6072cdd5104463d87fbe320689d7e26";
+ 
+		 //apiUrl: The base URL for the API. Find out what this is for other APIs via the API documentation
+		 var apiUrl = "https://api.projectoxford.ai/emotion/v1.0/recognize";
+		 
+		 $('#btn').click(function () {
+			 //file: The file that will be sent to the api
+			 var file = document.getElementById('inputImg').files[0];
+			 
+			 CallAPI(file, apiUrl, apiKey);
+		 });
+		 
+		 function CallAPI(file, apiUrl, apiKey)
+		 {
+			 $.ajax({
+				 url: apiUrl,
+				 beforeSend: function (xhrObj) {
+				 xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
+				 xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apiKey);
+			 },
+				 type: "POST",
+				 data: file,
+				 processData: false
+			 })
+			 .done(function (response) {
+			 	ProcessResult(response); 
+			 	if (response[0] == undefined) {
+			 		alert("Foto invalida");
+			 	}
+			 	var scores = response[0].scores;
+                var scoresList = $('#scores');
+			 	for(var prop in scores) {
+                    //scoresList.append("<li> " + prop + ": " + scores[prop] + "</li>")
+                    //alert("Estan bien pendejos")
+                    localStorage.setItem(fecha+prop,scores[prop]);
+                }
+			 	perfiles();
+			 	//guardarResE();
+			 })
+			 .fail(function (error) {
+			 	$("#response").text(error.getAllResponseHeaders());
+			 });
+		 }
+		 
+		 function ProcessResult(response)
+		 {
+			 var data = JSON.stringify(response);
+			 $("#response").text(data);
+		 }
+    
+</script>
+	
+</html>

@@ -1,56 +1,50 @@
-<html>
- 
- <head>
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
- </head>
- 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+	<title>Document</title>
+	<script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+	<link rel="stylesheet" href="estilos/style.css">
+	<link rel="icon" type="image/png" href="imagen/logo.png" />
+</head>
+<body >
+	<div id="cargar" class="container">
+		<div class="login">
+		</div>
+		<div class="cargar">
+		<div id="loading">
+				
+			</div>
+		</div>
+	</div>
+	<div id="inicio">
+		<!-- <div class="login"></div>
+		<h1>Login</h1>
+		<div class="formulario">
+			<input type="text" name="usuario" class="inputForm" placeholder="Username" id="txtUsername">
+			<input type="password" name="usuario" class="inputForm" placeholder="******" id="passContraseña">
+			<input type="submit" value="Iniciar Sesion" class="button" onclick="sesion()">
+			<p><span>Aun no estoy registrado. </span><span id="registrar" onclick="registrar()"> Registrarme</span></p>
+		</div>	 -->
+	</div>
+	<div id="registro">
+		<div class="login"></div>
+		<h1>Registro</h1>
+		<div class="formulario">
+			<input type="text" name="usuario" class="inputForm" placeholder="Escribe tu nombre" id="txtNombre">
+			<input type="text" name="usuario" class="inputForm" placeholder="Correo" id="txtEmail">
+			<input type="number" name="usuario" class="inputForm" placeholder="Edad" id="numEdad">
+			<input type="password" name="usuario" class="inputForm" placeholder="Contraseña" id="passPassword">
+			<input type="password" name="usuario" class="inputForm" placeholder="Confirma Contraseña" id="passPassword2">
+		
+		</div>	
+			<input type="submit" value="Registrar" class="button" onclick="registro()">
+			<p><span>Ya estoy registrado deseo </span><span id="registrar" onclick="inicio()">Iniciar Sesion</span></p>
+	</div>
+	</div>
+	<input id="bandera" value="index" hidden="none"></input>
+</body>
 
- <body>
- <p>This example shows how to post an image to the Project Oxford Emotion API using a binary file</p>
- <input type="file" id="filename" name="filename">
- <button id="btn">Click here</button>
- <p id="response"></p>
- 
- <script type="text/javascript">
- //apiKey: Replace this with your own Project Oxford Emotion API key, please do not use my key. I include it here so you can get up and running quickly but you can get your own key for free at https://www.projectoxford.ai/emotion 
- var apiKey = "b6072cdd5104463d87fbe320689d7e26";
- 
- //apiUrl: The base URL for the API. Find out what this is for other APIs via the API documentation
- var apiUrl = "https://api.projectoxford.ai/emotion/v1.0/recognize";
- 
- $('#btn').click(function () {
- //file: The file that will be sent to the api
- var file = document.getElementById('filename').files[0];
- 
- CallAPI(file, apiUrl, apiKey);
- });
- 
- function CallAPI(file, apiUrl, apiKey)
- {
- $.ajax({
- url: apiUrl,
- beforeSend: function (xhrObj) {
- xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
- xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apiKey);
- },
- type: "POST",
- data: file,
- processData: false
- })
- .done(function (response) {
- ProcessResult(response);
- })
- .fail(function (error) {
- $("#response").text(error.getAllResponseHeaders());
- });
- }
- 
- function ProcessResult(response)
- {
- var data = JSON.stringify(response);
- $("#response").text(data);
- }
- </script>
- </body>
- 
- </html>
+<script src="script/script.js"></script>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>	</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+	<script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+<link rel="icon" type="image/png" href="imagen/logo.png" />
+</head>
+<body>
+	<div class="container">
+		<div class="perfil">	
+				<div id="fotoPerfil" class="foto" onclick="emocionestotal()">	
+					<div class="marca" id="emociones" >
+						<h1>Emociones</h1>
+						<p>Enojado: <span id="e1"> </span></p>
+						<p>Desprecio: <span id="e2"> </span></p>
+						<p>Disgusto: <span id="e3"> </span></p>
+						<p>Miedo: <span id="e4"> </span></p>
+						<p>Felicidad: <span id="e5"> </span></p>
+						<p>Neutral: <span id="e6"> </span></p>
+						<p>Tristeza: <span id="e7"> </span></p>
+						<p>Sorpresa: <span id="e8"> </span></p>
+
+					</div>
+				</div>
+				<div class="information">	
+						<h5 id="spName"></h5>
+						<p id="mosCorreo"></p>
+				</div>
+
+		</div>
+		<div class="menu">
+				<div class="option" onclick="mapa()">	
+				<div class="icon"><img src="imagen/map-location.png" width="70%" height="70%;" alt=""></div>
+				<p>Mapa de psicologos	</p>
+				</div>
+				<div class="option">	
+				<div class="icon"><img src="imagen/idea.png" width="70%" height="70%;" alt=""></div>
+				
+				<p onclick="reEvaluar()">Re-evaluarme</p>
+
+				</div>
+
+				<div class="option">	
+				<div class="icon"><img src="imagen/smartphone.png" width="70%" height="70%;" alt=""></div>
+
+				<p onclick="reset()">	Resetear informacion</p>
+				</div>
+				
+				<div class="option">	
+				<div class="icon"><img src="imagen/error.png" width="70%" height="70%;" alt=""></div>
+				<p onclick="logout()">Eliminar cuenta</p>
+				</div>
+		</div>
+		<footer>	
+	<div class="opciones">	
+		<div class="parte1" onclick="activities()"><img src="imagen/list.png" id="imgactividad" class="myImg" alt="" width="100%" height="100%;"></div>
+		<div class="parte1" onclick="perfilChange()"><img src="imagen/user.png" id="imgperfil"  alt="" width="100%;" height="100%;"></div>
+		<div id="faceRectangle"></div>
+		<div id="scores"></div>
+	</div>
+	</footer>
+	</div>
+	<div class="activities" id="activities">
+			<h1 style="color: #B8B8B8;">Lista de activiadades</h1>
+				<div class="actividad a1 lejos" >	
+						<div class="icono">	<img src="imagen/icon/ring.png" width="40px" height="40px"></div>
+						<div class="ainfo"><p>Hoy deberias intentar:</p> <span id="a1">Soccer </span></div>
+				</div>
+				<div class="actividad a2 lejos" >	
+						<div class="icono">	<img src="imagen/icon/ring.png" width="40px" height="40px"></div>
+						<div class="ainfo"><p>Hoy deberias intentar:</p><span id="a2"> Basketball</span>	</div>
+				</div>
+				<div class="actividad a3 lejos" >	
+						<div class="icono"><img src="imagen/icon/ring.png" width="40px" height="40px">	</div>
+						<div class="ainfo"><p>Hoy deberias intentar:</p><span id="a3"> Instrumento</span></div>
+				</div>
+	</div>
+	<div class="mapaTotal" id="mapaTotal">
+		<div class="map" id="map">
+			
+		</div>
+		<div class="lista" style="height: 50%; overflow-y: scroll;">
+		<div class="close"><p onclick="closemap()">x</p></div>
+			<div class="psicologos" id="psicologos">
+
+			</div>
+		</div>
+		
+	</div>
+	<input id="bandera" value="perfil" hidden="none"></input>
+</body>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDASdSGdxcPahkbHUdotGJpAiPMSsAixmE&libraries=places&callback=localizame" async defer></script>
+
+    
+<script>
+window.addEventListener('load',localstorageActividad,true)
+function localstorageActividad(){
+
+var act=localStorage.getItem('actividades')
+var arreglo=act.split(",")
+var x = Math.floor((Math.random() * arreglo.length) + 1);
+var x2 = Math.floor((Math.random() * arreglo.length) + 1);
+var x3 = Math.floor((Math.random() * arreglo.length) + 1);
+if(x==x2){
+	x2 = Math.floor((Math.random() * arreglo.length) + 1);
+}
+if(x==x3){
+	x3 = Math.floor((Math.random() * arreglo.length) + 1);
+}
+if(x2==x3){
+	x3 = Math.floor((Math.random() * arreglo.length) + 1);
+}
+
+a1=localStorage.getItem("Actividad"+x)
+a2=localStorage.getItem("Actividad"+x2)
+a3=localStorage.getItem("Actividad"+x3)
+a1h=document.getElementById('a1')
+a2h=document.getElementById('a2')
+a3h=document.getElementById('a3')
+a1h.innerHTML=a1;
+a2h.innerHTML=a2;
+a3h.innerHTML=a3;
+
+el1=localStorage.getItem(fecha+'anger')
+el2=localStorage.getItem(fecha+'contempt')
+el3=localStorage.getItem(fecha+'disgust')
+el4=localStorage.getItem(fecha+'fear')
+el5=localStorage.getItem(fecha+'happiness')
+el6=localStorage.getItem(fecha+'neutral')
+el7=localStorage.getItem(fecha+'sadness')
+el8=localStorage.getItem(fecha+'surprise')
+
+document.getElementById('e1').innerHTML=el1
+document.getElementById('e2').innerHTML=el2
+document.getElementById('e3').innerHTML=el3
+document.getElementById('e4').innerHTML=el4
+document.getElementById('e5').innerHTML=el5
+document.getElementById('e6').innerHTML=el6
+document.getElementById('e7').innerHTML=el7
+document.getElementById('e8').innerHTML=el8
+
+
+
+}
+function activities(){
+
+		var activities= document.getElementById('activities')
+		activities.style.left="0%";
+		setTimeout(function(){
+			var hola=document.querySelectorAll(".actividad")
+			for(i=0;i<3;i++){
+				hola[i].classList.remove('lejos')
+			}
+
+		  }, 700);
+		 document.getElementById('imgactividad').classList.remove('myImg');
+		document.getElementById('imgperfil').classList.add('myImg');
+	
+
+}
+function perfilChange(){
+	setTimeout(function(){
+			var hola=document.querySelectorAll(".actividad")
+			for(i=0;i<3;i++){
+				hola[i].classList.add('lejos')
+			}
+
+		  }, 700);
+	document.getElementById('activities').style.left='-100%';
+		 document.getElementById('imgperfil').classList.remove('myImg');
+		document.getElementById('imgactividad').classList.add('myImg');
+}
+
+	
+function localizame() {
+            if (navigator.geolocation) { /* Si el navegador tiene geolocalizacion */
+                navigator.geolocation.getCurrentPosition(coordenadas, errores);
+               
+            }else{
+                alert('Oops! Tu navegador no soporta geolocalización. Bájate Chrome, que es gratis!');
+            }
+        
+        }
+        function coordenadas(position) {
+            latitud = position.coords.latitude; /*Guardamos nuestra latitud*/
+            longitud = position.coords.longitude; /*Guardamos nuestra longitud*/
+           
+             var latlon = new google.maps.LatLng(latitud,longitud)
+             initMap(latlon)
+            
+             
+        }
+    
+        
+    function errores(err) {
+            /*Controlamos los posibles errores */
+            if (err.code == 0) {
+              alert("Oops! Algo ha salido mal");
+            }
+            if (err.code == 1) {
+              alert("Oops! No has aceptado compartir tu posición");
+            }
+            if (err.code == 2) {
+              alert("Oops! No se puede obtener la posición actual");
+            }
+            if (err.code == 3) {
+              alert("Oops! Hemos superado el tiempo de espera");
+            }
+        }
+ 
+      var map;
+      var infowindow;
+
+      function initMap(pos) {
+        var pyrmont = pos;
+		
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: pyrmont,
+          zoom: 13
+        });
+
+        infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+          location: pyrmont,
+          radius: 5000000,
+          keyword:['psicologo']
+
+          
+        }, callback);
+       
+      }
+
+      function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < results.length; i++) {
+          	localStorage.setItem('total',results.length-1)
+            createMarker(results[i]);
+            document.getElementById('psicologos').innerHTML+="<div class='psicologo' id='psicologo"+i+"'><p>"+results[i].name+"</p></div>"
+          }
+        }
+      }
+
+      function createMarker(place) {
+        var placeLoc = place.geometry.location;
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+          /*placeId: place.place_id,*/
+          /*placeadd: place.formatted_address*/
+
+        });
+         var infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+
+        service.getDetails({
+          placeId: place.place_id
+        }, function(place, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+
+              infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                'Numero Telefonico: ' + place.formatted_phone_number + '<br>' +
+                place.formatted_address + '</div>');
+              var totalPlace=localStorage.getItem('total');
+              	for (var i = 0; i < totalPlace; i++) {
+
+              			document.getElementById('psicologo'+i).innerHTM='<div><strong>' + place.name + '</strong><br>' +
+                'Numero Telefonico: ' + place.formatted_phone_number + '<br>' +
+                place.formatted_address + '</div>'
+
+              	}
+              infowindow.open(map, this);
+            });
+          }
+        });
+      }
+        
+       /* var content='<div id="content"><h1 id="firstHeading" class="firstHeading">'+place.name+'</h1><h1 id="firstHeading" class="firstHeading">'+marker.placeId+'</h1></div>';
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(content);
+          infowindow.open(map, this);
+        });
+      }*/
+
+	function mapa(){
+		
+		document.getElementById('mapaTotal').style.top='0';
+	}function closemap(){
+		
+		document.getElementById('mapaTotal').style.top='100%';
+	}
+	function emocionestotal(){
+		document.getElementById('')
+	}
+</script>
+<style>	
+	*{
+		margin: 0;
+		padding: 0;
+		font-family: 'segoe UI';
+	}
+	.foto:active .marca{
+		visibility:visible;
+		opacity: 1
+	}
+	.marca>p{
+		margin-top:5px;
+	}
+	.marca{
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.7);
+		border-bottom-right-radius: 50px;
+		border-bottom-left-radius: 50px;
+		opacity: 0;
+		visibility: hidden;
+		transition: .2s ease-in;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+		padding: 50px;
+		box-sizing: border-box;
+		font-size: .7em;
+		color: #fff;
+	}
+	.ainfo{
+		width: 80%;
+		color: #fff;
+	}
+	.close{
+		font-size: 1.2em;
+		width: 100%;
+		height: 25px;
+		padding-right: 20px;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;justify-content: flex-end;
+		background-color: #f6f6f6;
+		z-index: 7;
+		position: fixed;
+	}
+	.psicologos{
+		margin-top: 25px;
+	}
+	.myImg {
+         filter:grayscale(100%);
+}
+	.psicologo{
+		padding-left: 20px;
+		box-sizing: border-box;
+		font-size: .9em;
+		width: 100%;
+		height: 40px;
+		margin-bottom: 5px;
+		background-color: #fff; 
+		text-overflow: ellipsis;
+		white-space: nowrap; 
+		overflow: hidden;
+	}
+	.container{
+		width: 100%;
+		height: 95vh;
+		background: #f6f6f6;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: center;
+		align-items: stretch;
+		transition: .6s all;
+
+		
+	}
+	.activities{
+		width: 100%;
+		height: 92vh;
+		background-color: #f6f6f6;
+		position: fixed;
+		top:0;
+		
+		left: -100%;
+		transition: .6s all;
+		text-align: center;
+		padding-top: 10px;
+		box-sizing: border-box;
+	}
+	.actividad{
+		width: 100%;
+		height: 90px;
+		margin-top: 60px;
+		transition: .3s all;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+
+
+	}
+	.icono{
+		width: 80px;
+		height: 80%;
+		
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		background-color: white;
+		margin-left: 10px;
+		border-bottom-right-radius: 50px;
+		border-bottom-left-radius: 50px;
+	}
+	.a1{
+		background-color: #ff5a5a;
+
+	}
+	.a2{
+		background-color: #5aa1ff;
+
+	}
+	.a3{
+		background-color: #5aff88;
+	}
+	.lejos{
+		width: 80%;
+		margin-left: 70px;
+		opacity: 0;
+	}
+	.map{
+		width: 100%;
+		height: 50%;
+		
+	}
+	.mapaTotal{
+		width: 100%;
+		height: 100vh;
+		position: fixed;
+		top:100%;
+		background: #f6f6f6;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: center;
+		align-items: stretch;
+		transition: .4s all;
+		
+	}
+	.perfil{
+		width: 100%;
+		height: 320px;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: center;
+		
+	}
+	.foto{
+		width: 70%;
+		height: 250px;
+		background: url('imagen/logo.png');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+
+		border-bottom-right-radius: 50px;
+		border-bottom-left-radius: 50px;
+	}
+	.information{
+		width: 80%;
+		height: 50px;
+		color:rgba(0,0,0,.7);
+		text-align: center;
+	}
+	.menu{
+		width: 80%;
+		height: calc(100vh - 450px);
+		
+		
+		
+	}
+	.option{
+		width: 100%;
+		height: 25%;
+		
+		line-height: 50px;
+		border-bottom: 1px solid #ececec;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		transition: .3s all;
+		
+	}
+	.option:active{
+		border-bottom: 1px solid #FFC83F;
+		background-color: #ececec;
+	}
+	.option>p{
+		width: 80%;
+		height: auto;
+		
+		
+	}.icon{
+		width:30px;
+		height:30px;
+		
+		}
+	.parte1{
+width: 40px;
+height: 100%;
+margin-right: 40px;
+
+
+	}
+	footer{
+		width: 100%;
+		height: 50px;
+		position: fixed;
+		bottom: 0;
+		
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		background-color: #fff;
+
+	}
+	.opciones{
+		width: auto;
+		height: 40px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-content:  center;
+		
+
+
+	}
+
+	</style>
+<script src="script/script.js"></script>
+
+</html>
