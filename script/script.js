@@ -35,25 +35,21 @@ function registro(){
 	var edad = numEdad.value;
 	var nombre = txtNombre.value;
 
-	localStorage.setItem("email",email);
-	localStorage.setItem("edad",edad);
-	localStorage.setItem("nombre",nombre);
-	localStorage.setItem("pass",pass);
-
-    if (email != "" && edad != "" && nombre !="" && pass !="") {
+    if (email != "" && edad != "" && nombre !="") {
     	if (email.includes("@") && email.includes(".")) {
-    		if(pass.length >= 6){
+                localStorage.setItem("email",email);
+                localStorage.setItem("edad",edad);
+                localStorage.setItem("nombre",nombre);
+                localStorage.setItem("pass",pass);
 		        window.location.assign('actividades.html');
-	        }else{
-	        	alert("La contraseña es demasiado corta");
-	        }
         }else{
         	alert("Tu correo no es valido");
         }
     }else{
         alert("Hacen falta datos");
-        console.log(email+" "+edad+" "+nombre+" "+pass);
+        console.log(email+" "+edad+" "+nombre+" ");
     }
+
 	//
 }
 function continuar(){
@@ -245,11 +241,11 @@ function carga1(){
 
 		cargar.style.left="-100%";
 
-	}, 1000);
+	}, 4000);
 setTimeout(function (){
 registrar.style.left="0%";
 
-	}, 1000);
+	}, 4000);
 
 }
 function guardarResE(){
