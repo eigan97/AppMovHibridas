@@ -37,11 +37,12 @@ function registro(){
 
     if (email != "" && edad != "" && nombre !="") {
     	if (email.includes("@") && email.includes(".")) {
+				window.location.assign('actividades.html');
                 localStorage.setItem("email",email);
                 localStorage.setItem("edad",edad);
                 localStorage.setItem("nombre",nombre);
                 localStorage.setItem("pass",pass);
-		        window.location.assign('actividades.html');
+		        
         }else{
         	alert("Tu correo no es valido");
         }
