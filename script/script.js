@@ -31,11 +31,9 @@ const numEdad = document.getElementById('numEdad');
 
 function registro(){
 
-    var pass2 = passPassword2.value;
     var email = txtEmail.value;
 	var edad = numEdad.value;
 	var nombre = txtNombre.value;
-	var pass = passPassword.value;
 
 	localStorage.setItem("email",email);
 	localStorage.setItem("edad",edad);
@@ -45,11 +43,7 @@ function registro(){
     if (email != "" && edad != "" && nombre !="" && pass !="") {
     	if (email.includes("@") && email.includes(".")) {
     		if(pass.length >= 6){
-    			if (pass == pass2) {
-		        	window.location.assign('actividades.html');
-	        	}else{
-	        		alert("Las contraseñas no coinciden");
-	        	}
+		        window.location.assign('actividades.html');
 	        }else{
 	        	alert("La contraseña es demasiado corta");
 	        }
@@ -65,11 +59,15 @@ function registro(){
 function continuar(){
 	var act = localStorage.getItem("actividades");
 	var arregloDeCadenas = act.split(",");
+    var conta = 1;
 
 	for (var i=0; i < 20; i++) {
     	if(arregloDeCadenas[i] == undefined){
     		arregloDeCadenas[i] = null;
-    	}
+    	}else{
+            localStorage.setItem("Actividad"+conta,arregloDeCadenas[i]);
+            conta+=1;
+        }
 	}
 	window.location.assign('app.html');
 }
@@ -267,10 +265,8 @@ function img(){
 
 function reset(){
     for(var i =0; i < localStorage.length; i++){
-        if (localStorage.key(i).includes(fecha) || localStorage.key(i).includes("actividades") || localStorage.key(i).includes("anger") || localStorage.key(i).includes("contempt") || localStorage.key(i).includes("disgust") || localStorage.key(i).includes("fear") || localStorage.key(i).includes("happiness") || localStorage.key(i).includes("neutral") || localStorage.key(i).includes("resulta") || localStorage.key(i).includes("sadness") || localStorage.key(i).includes("surprise")) {
+        if (localStorage.key(i).includes(fecha) || localStorage.key(i).includes("ctividad") || localStorage.key(i).includes("anger") || localStorage.key(i).includes("contempt") || localStorage.key(i).includes("disgust") || localStorage.key(i).includes("fear") || localStorage.key(i).includes("happiness") || localStorage.key(i).includes("neutral") || localStorage.key(i).includes("resulta") || localStorage.key(i).includes("sadness") || localStorage.key(i).includes("surprise")) {
             localStorage.removeItem(localStorage.key(i));
-            alert(localStorage.key(i));
-            alert(i)
             i=-1;
         }
     }

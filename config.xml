@@ -38,6 +38,7 @@
         <variable name="MICROPHONE_USAGE_DESCRIPTION" value="Microphone used for development purposes" />
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Photo library used for development purposes" />
     </plugin>
+    
     <!-- ========================================*/ -->
     <preference name="Orientation" value="portrait" />
     <platform name="android">
